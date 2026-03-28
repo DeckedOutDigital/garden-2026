@@ -1232,6 +1232,141 @@ h3 {
   .checklist-items { max-height: none !important; }
   .btn, .notes-form { display: none; }
 }
+
+/* === FROST + WEATHER === */
+.frost-banner {
+  text-align: center; padding: 10px 20px;
+  font-size: 0.88rem; font-weight: 600; letter-spacing: 0.2px;
+}
+.frost-cold { background: #ddeeff; color: #1a5c99; border-bottom: 2px solid #90bce8; }
+.frost-warm { background: #e8f5e0; color: #2a5e2a; border-bottom: 2px solid #7ec87e; }
+.frost-warning { background: #fff3cd; color: #7a4f00; border-bottom: 2px solid #f9a825; }
+
+.weather-strip {
+  background: var(--card); border-bottom: 1px solid var(--border);
+  padding: 8px 20px; display: flex; align-items: center;
+  justify-content: center; gap: 20px; flex-wrap: wrap;
+  font-size: 0.82rem; color: var(--text-muted);
+}
+.weather-current {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.92rem; color: var(--text); font-weight: 600;
+}
+.weather-divider { color: var(--border); }
+.weather-day { display: flex; align-items: center; gap: 4px; font-size: 0.8rem; }
+.weather-day-name { font-weight: 600; color: var(--text); margin-right: 2px; }
+.weather-loading { color: var(--text-muted); font-style: italic; font-size: 0.85rem; }
+
+/* === THIS WEEK === */
+.weekly-card {
+  background: linear-gradient(135deg, var(--green-dark), #3a7255);
+  color: white; border-radius: var(--radius); padding: 20px 24px;
+}
+.weekly-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.weekly-emoji { font-size: 2rem; }
+.weekly-period { font-size: 0.72rem; opacity: 0.72; text-transform: uppercase; letter-spacing: 0.8px; }
+.weekly-title { font-size: 1.1rem; font-weight: 700; }
+.weekly-tasks-list {
+  list-style: none;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 8px;
+}
+.weekly-tasks-list li {
+  background: rgba(255,255,255,0.12); border-radius: 8px;
+  padding: 8px 12px; font-size: 0.83rem; line-height: 1.45;
+}
+.weekly-tasks-list li::before { content: '→ '; opacity: 0.65; }
+
+/* === WATERING LOG === */
+.water-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px;
+}
+.water-card {
+  background: var(--card); border: 2px solid var(--border);
+  border-radius: var(--radius); padding: 14px 12px; text-align: center;
+  cursor: pointer; transition: all 0.2s;
+}
+.water-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.water-card.status-ok { border-color: #2ecc71; background: #f0faf4; }
+.water-card.status-due { border-color: #f1c40f; background: #fffbee; }
+.water-card.status-late { border-color: #e67e22; background: #fff6ee; }
+.water-card.status-overdue { border-color: #e74c3c; background: #fff2f0; }
+.water-card.status-never { border-color: #ccc; background: #fafafa; }
+.water-label { font-weight: 700; font-size: 0.9rem; margin-bottom: 2px; }
+.water-note { font-size: 0.72rem; color: var(--text-muted); margin-bottom: 6px; }
+.water-days { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px; font-weight: 500; }
+.water-btn {
+  background: var(--green); color: white; border: none;
+  border-radius: 6px; padding: 6px 14px; font-size: 0.8rem;
+  cursor: pointer; font-weight: 600; transition: background 0.2s; width: 100%;
+}
+.water-btn:hover { background: var(--green-dark); }
+
+/* === HARVEST LOG === */
+.harvest-log-flex {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 16px;
+}
+@media (max-width: 700px) { .harvest-log-flex { grid-template-columns: 1fr; } }
+.harvest-panel {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 18px;
+}
+.harvest-panel h3 { font-size: 0.95rem; margin-bottom: 14px; color: var(--green-dark); }
+.harvest-form-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+.harvest-form-row select,
+.harvest-form-row input[type="number"] {
+  flex: 1; min-width: 80px;
+  padding: 8px 10px; border: 1.5px solid var(--border);
+  border-radius: 8px; font-size: 0.88rem; background: white;
+}
+.harvest-total-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 5px 0; border-bottom: 1px solid var(--border); font-size: 0.85rem;
+}
+.harvest-total-row:last-child { border-bottom: none; }
+.harvest-badge {
+  font-weight: 700; color: var(--green-dark);
+  background: var(--green-light); padding: 2px 8px;
+  border-radius: 12px; font-size: 0.78rem;
+}
+.harvest-history {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px 18px;
+  max-height: 260px; overflow-y: auto;
+}
+.harvest-entry {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 0.84rem;
+}
+.harvest-entry:last-child { border-bottom: none; }
+.harvest-del {
+  background: none; border: none; color: #ccc; cursor: pointer;
+  padding: 2px 6px; border-radius: 4px; font-size: 0.9rem;
+}
+.harvest-del:hover { color: #e74c3c; background: #fff0ee; }
+.harvest-empty { color: var(--text-muted); font-size: 0.88rem; text-align: center; padding: 16px 0; }
+
+/* === SOW TRACKER === */
+.sow-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px;
+}
+.sow-card {
+  background: var(--card); border: 2px solid var(--border);
+  border-radius: var(--radius); padding: 18px 16px; text-align: center;
+}
+.sow-crop-name { font-size: 1rem; font-weight: 700; color: var(--green-dark); margin-bottom: 2px; }
+.sow-note { font-size: 0.73rem; color: var(--text-muted); margin-bottom: 10px; }
+.sow-status-text { font-size: 1rem; font-weight: 800; margin-bottom: 4px; }
+.sow-status-text.ready { color: #27ae60; }
+.sow-status-text.soon { color: #e67e22; }
+.sow-status-text.waiting { color: var(--text-muted); }
+.sow-last { font-size: 0.76rem; color: var(--text-muted); margin-bottom: 12px; }
+.sow-btn {
+  background: var(--green); color: white; border: none;
+  border-radius: 8px; padding: 8px 18px; font-size: 0.83rem;
+  font-weight: 600; cursor: pointer; transition: background 0.2s;
+}
+.sow-btn:hover { background: var(--green-dark); }
+.sow-history-line { margin-top: 10px; font-size: 0.72rem; color: var(--text-muted); }
 </style>
 <!-- Firebase SDK (CDN - no npm needed) -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
@@ -1257,6 +1392,9 @@ h3 {
     _checkState: {},
     _notesState: [],
     _photos: {},
+    _watering: {},
+    _harvests: {},
+    _sowings: {},
     _ready: { checks: false, notes: false },
 
     init() {
@@ -1367,6 +1505,10 @@ h3 {
     <a href="#irrigation">Irrigation</a>
     <a href="#photos">Photos</a>
     <a href="#notes">Notes</a>
+    <a href="#this-week">This Week</a>
+    <a href="#watering">Watering</a>
+    <a href="#harvests">Harvests</a>
+    <a href="#sow-tracker">Sow Tracker</a>
   </div>
 </nav>
 
@@ -1380,6 +1522,11 @@ h3 {
     <span class="badge">~92 sq ft + 2 containers</span>
   </div>
 </header>
+
+<div id="frostCountdown" class="frost-banner frost-cold">Calculating...</div>
+<div class="weather-strip" id="weatherStrip">
+  <span class="weather-loading">☁️ Loading Northglenn weather...</span>
+</div>
 
 <main>
 
@@ -1748,6 +1895,51 @@ h3 {
     <button class="btn btn-primary" onclick="addNote()">Add Note</button>
   </div>
   <div id="notesList"></div>
+</section>
+
+<section id="this-week">
+  <h2><span class="icon">📅</span> This Week in the Garden</h2>
+  <div id="weeklyTasksCard"></div>
+</section>
+
+<section id="watering">
+  <h2><span class="icon">💧</span> Watering Log</h2>
+  <p class="section-intro" style="margin-bottom:16px;color:var(--text-muted);font-size:0.9rem;">Tap a bed to log watering. Color = days since last watered. Synced to both phones instantly.</p>
+  <div class="water-grid" id="waterGrid"></div>
+</section>
+
+<section id="harvests">
+  <h2><span class="icon">🧺</span> Harvest Log</h2>
+  <div class="harvest-log-flex">
+    <div class="harvest-panel">
+      <h3>Log a Harvest</h3>
+      <div class="harvest-form-row">
+        <select id="harvestPlant" style="width:100%;flex:none"><option value="">— Pick a plant —</option></select>
+      </div>
+      <div class="harvest-form-row">
+        <input type="number" id="harvestAmt" placeholder="Amount" min="0.1" step="0.1" style="max-width:100px">
+        <select id="harvestUnit">
+          <option>handful</option>
+          <option>count</option>
+          <option>lbs</option>
+          <option>cups</option>
+          <option>bunch</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" onclick="logHarvest()" style="width:100%">🧺 Log Harvest</button>
+    </div>
+    <div class="harvest-panel">
+      <h3>Season Totals</h3>
+      <div id="harvestTotals"><p class="harvest-empty">Nothing harvested yet — first harvest coming soon! 🌱</p></div>
+    </div>
+  </div>
+  <div class="harvest-history" id="harvestHistory"></div>
+</section>
+
+<section id="sow-tracker">
+  <h2><span class="icon">🌱</span> Succession Sow Tracker</h2>
+  <p class="section-intro" style="margin-bottom:16px;color:var(--text-muted);font-size:0.9rem;">Log each sowing and the tracker tells you when it's time for the next batch.</p>
+  <div class="sow-grid" id="sowGrid"></div>
 </section>
 
 </main>
@@ -2270,6 +2462,409 @@ renderPlants();
 renderChecklists();
 renderGantt();
 renderNotes();
+
+// ==========================================
+// FROST COUNTDOWN
+// ==========================================
+const LAST_FROST = new Date(2026, 4, 10);
+const FIRST_FROST = new Date(2026, 9, 5);
+
+function renderFrostCountdown() {
+  const el = document.getElementById('frostCountdown');
+  if (!el) return;
+  const today = new Date(); today.setHours(0,0,0,0);
+  let msg, cls;
+  if (today < LAST_FROST) {
+    const days = Math.round((LAST_FROST - today) / 86400000);
+    msg = `❄️ ${days} day${days===1?'':'s'} until last frost (May 10) — hold off on tomatoes & peppers outdoors`;
+    cls = 'frost-cold';
+  } else if (today <= FIRST_FROST) {
+    const days = Math.round((FIRST_FROST - today) / 86400000);
+    if (days <= 21) {
+      msg = `⚠️ First frost in ${days} day${days===1?'':'s'} (Oct 5) — harvest peppers & tomatoes soon!`;
+      cls = 'frost-warning';
+    } else {
+      msg = `🌱 Growing season underway — ${days} day${days===1?'':'s'} of growing time left before first frost (Oct 5)`;
+      cls = 'frost-warm';
+    }
+  } else {
+    const next = new Date(2027, 4, 10);
+    const days = Math.round((next - today) / 86400000);
+    msg = `❄️ Season ended — next last frost in ${days} day${days===1?'':'s'} (May 10, 2027). Time to plan!`;
+    cls = 'frost-cold';
+  }
+  el.className = `frost-banner ${cls}`;
+  el.textContent = msg;
+}
+renderFrostCountdown();
+
+// ==========================================
+// WEATHER
+// ==========================================
+function wmoIcon(c) {
+  if (c===0) return '☀️';
+  if (c<=3) return '⛅';
+  if (c<=48) return '🌫️';
+  if (c<=55) return '🌦️';
+  if (c<=65) return '🌧️';
+  if (c<=77) return '🌨️';
+  if (c<=82) return '🌦️';
+  if (c<=86) return '❄️';
+  return '⛈️';
+}
+function wmoLabel(c) {
+  if (c===0) return 'Clear';
+  if (c<=3) return 'Partly Cloudy';
+  if (c<=48) return 'Foggy';
+  if (c<=55) return 'Drizzle';
+  if (c<=65) return 'Rainy';
+  if (c<=77) return 'Snow';
+  if (c<=82) return 'Showers';
+  if (c<=86) return 'Snow Showers';
+  return 'Thunderstorm';
+}
+async function fetchWeather() {
+  const el = document.getElementById('weatherStrip');
+  if (!el) return;
+  try {
+    const url = 'https://api.open-meteo.com/v1/forecast?latitude=39.8853&longitude=-104.9814' +
+      '&current=temperature_2m,weathercode,apparent_temperature' +
+      '&daily=weathercode,temperature_2m_max,temperature_2m_min' +
+      '&temperature_unit=fahrenheit&timezone=America%2FDenver&forecast_days=4';
+    const res = await fetch(url);
+    const d = await res.json();
+    const cur = d.current;
+    const daily = d.daily;
+    const dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const dayCards = [1,2,3].map(i => {
+      const dt = new Date(daily.time[i] + 'T12:00:00');
+      return `<span class="weather-day">
+        <span class="weather-day-name">${dayNames[dt.getDay()]}</span>
+        ${wmoIcon(daily.weathercode[i])}
+        <span>${Math.round(daily.temperature_2m_max[i])}°/<span style="color:var(--blue)">${Math.round(daily.temperature_2m_min[i])}°</span></span>
+      </span>`;
+    }).join('<span class="weather-divider"> · </span>');
+    el.innerHTML = `
+      <span class="weather-current">
+        ${wmoIcon(cur.weathercode)}
+        <strong>${Math.round(cur.temperature_2m)}°F</strong>
+        <span style="font-weight:400;font-size:0.8rem">${wmoLabel(cur.weathercode)} · Feels ${Math.round(cur.apparent_temperature)}°</span>
+        <span style="font-size:0.74rem;color:var(--text-muted)">📍 Northglenn, CO</span>
+      </span>
+      <span class="weather-divider">|</span>
+      ${dayCards}`;
+  } catch(e) {
+    el.innerHTML = '<span class="weather-loading">Weather unavailable offline</span>';
+  }
+}
+fetchWeather();
+
+// ==========================================
+// THIS WEEK
+// ==========================================
+const WEEKLY_TASKS_DATA = [
+  { range:[[3,1],[3,15]], emoji:'🌱', title:'Start seeds indoors', tasks:[
+    'Start tomatoes & peppers indoors — 10 weeks before May 10 transplant',
+    'Order any remaining seeds online (cheaper than nursery)',
+    'Clean and prep seed trays with sterile seed mix',
+  ]},
+  { range:[[3,16],[3,31]], emoji:'🪴', title:'Seedling care & bed prep', tasks:[
+    'Thin tomato & pepper seedlings to the strongest one per cell',
+    'Start kale indoors for early Bed C transplant',
+    'Begin turning compost pile — should be ready by planting time',
+  ]},
+  { range:[[4,1],[4,14]], emoji:'🌿', title:'Spring prep & cool-season sowing', tasks:[
+    'Start cucumbers & squash indoors (4 weeks before late-May transplant)',
+    'Direct sow peas in Bed B — soil needs to be 40°F+ (finger test)',
+    'Amend all beds with 2–3" of compost, lightly fork in',
+    'Set up trellis in Bed B along north fence for peas',
+  ]},
+  { range:[[4,15],[4,30]], emoji:'🥗', title:'Plant cool-season crops', tasks:[
+    'Direct sow lettuce & cilantro in Bed C and shade sections',
+    'Transplant kale into Bed C after 4–5 days of hardening off',
+    'Direct sow scallions in Bed C',
+    'Harden off tomato/pepper seedlings — a few hours outside each day',
+  ]},
+  { range:[[5,1],[5,9]], emoji:'⚠️', title:'Pre-frost final prep', tasks:[
+    'Continue hardening off all seedlings daily — last frost is May 10!',
+    'Watch overnight forecast — cover seedlings if <38°F is forecast',
+    'Prep planting holes in Bed A with slow-release tomato fertilizer',
+    'Direct sow radishes in Shade 1',
+  ]},
+  { range:[[5,10],[5,20]], emoji:'🍅', title:'After last frost — transplant time!', tasks:[
+    '🎉 Transplant tomatoes, peppers & tomatillos into Bed A',
+    'Transplant cucumber seedlings into Bed B (trellis ready?)',
+    'Direct sow beans, zucchini & yellow squash in Bed B',
+    'Plant containers: Patio Princess in C1, Tumbling Tom Yellow in C2',
+  ]},
+  { range:[[5,21],[5,31]], emoji:'🌻', title:'Summer garden in gear', tasks:[
+    'Set up tomato cages in Bed A — Cherokee Purple needs a big sturdy one',
+    'First succession sow of cilantro in Bed C (log it in Sow Tracker!)',
+    'Train peas up trellis, gently guide tendrils daily',
+    'Watch for slugs after rains — beer traps work great',
+  ]},
+  { range:[[6,1],[6,15]], emoji:'🌿', title:'Thin, train & first succession', tasks:[
+    'Thin bean seedlings to 4" apart, squash/zucchini to 1 plant per hill',
+    'Pinch tomato suckers below the first flower cluster',
+    'Train cucumbers up trellis, remove lowest side shoots',
+    'Succession sow lettuce (2nd round) in shade sections',
+  ]},
+  { range:[[6,16],[6,30]], emoji:'🧪', title:'Fertilize & monitor', tasks:[
+    'Side-dress tomatoes & peppers with balanced fertilizer',
+    'Tomatillos should be flowering — both plants needed to cross-pollinate ✓',
+    'Harvest peas as pods fill — keep picking to keep plants producing',
+    'Succession sow cilantro 2nd batch in Bed C',
+  ]},
+  { range:[[7,1],[7,15]], emoji:'☀️', title:'Peak summer care', tasks:[
+    'Deep water 2–3× per week — stick finger 2" in soil to check',
+    'Watch for squash vine borer on zucchini (wilting at stem base)',
+    'Harvest zucchini & yellow squash at 6–8" — bigger gets seedy and tough',
+    'Harvest cucumbers daily — leaving mature ones slows production',
+  ]},
+  { range:[[7,16],[7,31]], emoji:'🍅', title:'First tomatoes!', tasks:[
+    'Tomatoes should be turning color — harvest when fully ripe',
+    'Pull spent pea vines, let cucumbers take over the trellis',
+    'Succession sow cilantro 3rd batch — pull bolted plants first',
+    'Start fall kale & spinach seeds in shade sections for fall harvest',
+  ]},
+  { range:[[8,1],[8,15]], emoji:'🌽', title:'Heavy harvest season', tasks:[
+    'Harvest daily: tomatoes, peppers, zucchini, cucumbers, beans',
+    'Tumbling Tom in Container 2 will be prolific — harvest every few days',
+    'Remove lower tomato leaves touching soil (disease prevention)',
+    'Taper off nitrogen fertilizer — plants should focus on fruit now',
+  ]},
+  { range:[[8,16],[8,31]], emoji:'🍂', title:'Prep for fall', tasks:[
+    'Succession sow fall lettuce, spinach & arugula in shade sections',
+    'Final cilantro succession sow in Bed C',
+    'Take cuttings of rosemary & sage to overwinter indoors (optional)',
+    'Harvest habaneros when fully orange — leave longer for more heat',
+  ]},
+  { range:[[9,1],[9,15]], emoji:'🫙', title:'Harvest & preserve', tasks:[
+    'Blanch & freeze excess beans and zucchini',
+    'Harvest tomatillos when husks are dry & papery — great for salsa verde',
+    'Cut and dry sage, thyme & rosemary — hang in bundles to dry',
+    'Start pulling spent plants to prep beds for fall',
+  ]},
+  { range:[[9,16],[9,30]], emoji:'🌡️', title:'Watch the forecast', tasks:[
+    'First frost ~Oct 5 — check nightly forecast now!',
+    'Cover tomatoes & peppers if <38°F overnight is forecast',
+    'Harvest green tomatoes before a hard frost, ripen on the counter',
+    'Harvest all remaining peppers including habaneros before first frost',
+  ]},
+  { range:[[10,1],[10,5]], emoji:'❄️', title:'First frost — final harvest!', tasks:[
+    'Harvest ALL remaining tomatoes, peppers & tomatillos before hard frost',
+    'Mulch perennial herbs: rosemary, thyme, chives, sage',
+    'Pull tomato & pepper plants after the first hard frost',
+  ]},
+  { range:[[10,6],[11,30]], emoji:'🍂', title:'Put the garden to bed', tasks:[
+    'Pull all spent annuals and add to compost',
+    'Top dress all beds with 2–3" of compost',
+    'Plant garlic cloves 2" deep in any open bed space — harvest next July',
+    'Continue harvesting fall greens from shade sections until hard freeze',
+  ]},
+];
+
+function renderWeeklyTasks() {
+  const el = document.getElementById('weeklyTasksCard');
+  if (!el) return;
+  const today = new Date();
+  const m = today.getMonth() + 1, d = today.getDate();
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const match = WEEKLY_TASKS_DATA.find(t => {
+    const [sm,sd] = t.range[0], [em,ed] = t.range[1];
+    return (m > sm || (m===sm && d >= sd)) && (m < em || (m===em && d <= ed));
+  });
+  if (!match) {
+    el.innerHTML = `<div class="weekly-card"><p style="opacity:0.85;font-style:italic">❄️ Off season — enjoy the rest and start planning for next year!</p></div>`;
+    return;
+  }
+  el.innerHTML = `<div class="weekly-card">
+    <div class="weekly-card-header">
+      <span class="weekly-emoji">${match.emoji}</span>
+      <div>
+        <div class="weekly-period">${months[m-1]} ${d}</div>
+        <div class="weekly-title">${match.title}</div>
+      </div>
+    </div>
+    <ul class="weekly-tasks-list">${match.tasks.map(t => `<li>${t}</li>`).join('')}</ul>
+  </div>`;
+}
+renderWeeklyTasks();
+
+// ==========================================
+// WATERING LOG
+// ==========================================
+const WATER_BEDS = [
+  { id:'bed-a',     label:'Bed A 🔴',      note:'Tomatoes & Peppers' },
+  { id:'bed-b',     label:'Bed B 🟢',      note:'Vines & Beans' },
+  { id:'bed-c',     label:'Bed C 🟡',      note:'Herbs & Greens' },
+  { id:'containers',label:'Containers 🪴', note:'Hand water — no drip!' },
+  { id:'shade-beds',label:'Shade Beds',    note:'Triangles 1–4' },
+];
+
+function waterStatus(ts) {
+  if (!ts) return { cls:'never', label:'Never logged' };
+  const days = Math.floor((Date.now() - ts) / 86400000);
+  if (days <= 0) return { cls:'ok',      label:'Watered today ✓' };
+  if (days === 1)  return { cls:'due',    label:'Yesterday' };
+  if (days <= 3)   return { cls:'late',   label:`${days} days ago` };
+  return              { cls:'overdue', label:`${days} days ago ⚠️` };
+}
+
+function renderWateringLog() {
+  const el = document.getElementById('waterGrid');
+  if (!el) return;
+  el.innerHTML = WATER_BEDS.map(bed => {
+    const { cls, label } = waterStatus(SYNC._watering[bed.id]);
+    return `<div class="water-card status-${cls}" onclick="logWatering('${bed.id}')">
+      <div class="water-label">${bed.label}</div>
+      <div class="water-note">${bed.note}</div>
+      <div class="water-days">${label}</div>
+      <button class="water-btn">💧 Log Water</button>
+    </div>`;
+  }).join('');
+}
+
+function logWatering(bedId) {
+  const ts = Date.now();
+  SYNC._watering[bedId] = ts;
+  db.ref('watering/' + bedId).set(ts);
+  renderWateringLog();
+}
+
+(function initWateringLog() {
+  db.ref('watering').on('value', snap => {
+    SYNC._watering = snap.val() || {};
+    renderWateringLog();
+  });
+})();
+
+// ==========================================
+// HARVEST LOG
+// ==========================================
+const HARVEST_PLANTS_LIST = [
+  'Tomato — Early Girl','Tomato — Cherokee Purple','Tomato — Sun Gold Cherry',
+  'Tomato — Patio Princess','Tomato — Tumbling Tom Yellow',
+  'Pepper — Lunchbox','Pepper — Habanero','Pepper — Jalapeño',
+  'Tomatillo','Zucchini','Yellow Squash','Cucumber',
+  'Peas','Green Bush Beans','Yellow Wax Beans','Purple Pod Beans',
+  'Lettuce','Spinach','Kale','Swiss Chard','Arugula','Mesclun',
+  'Scallions','Radishes',
+  'Cilantro','Sage','Thyme','Chives','Rosemary','Sorrel',
+];
+
+(function populateHarvestSelect() {
+  const sel = document.getElementById('harvestPlant');
+  if (!sel) return;
+  HARVEST_PLANTS_LIST.forEach(p => {
+    const o = document.createElement('option');
+    o.value = o.textContent = p;
+    sel.appendChild(o);
+  });
+})();
+
+function logHarvest() {
+  const plant = document.getElementById('harvestPlant').value;
+  const amt   = parseFloat(document.getElementById('harvestAmt').value);
+  const unit  = document.getElementById('harvestUnit').value;
+  if (!plant || !amt || amt <= 0) { alert('Pick a plant and enter an amount.'); return; }
+  const date = new Date().toLocaleDateString('en-US', { month:'short', day:'numeric' });
+  db.ref('harvests/' + Date.now()).set({ plant, amt, unit, date });
+  document.getElementById('harvestAmt').value = '';
+  document.getElementById('harvestPlant').value = '';
+}
+
+function renderHarvestLog() {
+  const totalsEl = document.getElementById('harvestTotals');
+  const histEl   = document.getElementById('harvestHistory');
+  if (!totalsEl || !histEl) return;
+  const entries = Object.entries(SYNC._harvests || {}).sort((a,b) => b[0]-a[0]);
+  if (!entries.length) {
+    totalsEl.innerHTML = '<p class="harvest-empty">Nothing yet — first harvest coming soon! 🌱</p>';
+    histEl.innerHTML = '';
+    return;
+  }
+  const totals = {};
+  entries.forEach(([,e]) => {
+    const k = e.plant + '||' + e.unit;
+    totals[k] = (totals[k]||0) + (e.amt||0);
+  });
+  totalsEl.innerHTML = Object.entries(totals).map(([k, total]) => {
+    const [plant, unit] = k.split('||');
+    const disp = Number.isInteger(total) ? total : total.toFixed(1);
+    return `<div class="harvest-total-row"><span>${plant}</span><span class="harvest-badge">${disp} ${unit}</span></div>`;
+  }).join('');
+  histEl.innerHTML = `<div style="font-weight:600;font-size:0.82rem;color:var(--text-muted);margin-bottom:8px">Recent harvests</div>` +
+    entries.slice(0,20).map(([ts,e]) =>
+      `<div class="harvest-entry">
+        <span><strong>${e.plant}</strong> — ${e.amt} ${e.unit}</span>
+        <span style="display:flex;align-items:center;gap:8px">
+          <span style="color:var(--text-muted)">${e.date}</span>
+          <button class="harvest-del" onclick="deleteHarvest('${ts}')">✕</button>
+        </span>
+      </div>`
+    ).join('');
+}
+
+function deleteHarvest(ts) {
+  if (confirm('Remove this entry?')) db.ref('harvests/' + ts).remove();
+}
+
+(function initHarvestLog() {
+  db.ref('harvests').on('value', snap => {
+    SYNC._harvests = snap.val() || {};
+    renderHarvestLog();
+  });
+})();
+
+// ==========================================
+// SUCCESSION SOW TRACKER
+// ==========================================
+const SOW_CROPS = [
+  { id:'cilantro', label:'Cilantro', emoji:'🌿', days:21, note:'Every 3 weeks · Bed C + Shade 3' },
+  { id:'lettuce',  label:'Lettuce',  emoji:'🥬', days:14, note:'Every 2 weeks · Shade sections'  },
+  { id:'radishes', label:'Radishes', emoji:'🌱', days:25, note:'Every 3–4 weeks · Shade 1'       },
+  { id:'beans',    label:'Beans',    emoji:'🫘', days:21, note:'Every 3 weeks · Bed B'            },
+];
+
+function renderSowTracker() {
+  const el = document.getElementById('sowGrid');
+  if (!el) return;
+  const data = SYNC._sowings || {};
+  el.innerHTML = SOW_CROPS.map(crop => {
+    const sowings = data[crop.id] ? Object.values(data[crop.id]).sort((a,b)=>b-a) : [];
+    const last = sowings[0] || null;
+    const daysSince = last ? Math.floor((Date.now()-last)/86400000) : null;
+    const daysLeft  = last ? crop.days - daysSince : null;
+    let statusText, statusCls;
+    if (!last)          { statusText='Not yet sown';                          statusCls='waiting'; }
+    else if (daysLeft<=0) { statusText=`Sow now! (${Math.abs(daysLeft)}d overdue)`; statusCls='ready';   }
+    else if (daysLeft<=5) { statusText=`Sow in ${daysLeft} day${daysLeft===1?'':'s'}`; statusCls='soon';    }
+    else                  { statusText=`${daysLeft} days until next sow`;     statusCls='waiting'; }
+    const lastLabel = last ? new Date(last).toLocaleDateString('en-US',{month:'short',day:'numeric'}) : '—';
+    const history = sowings.slice(0,3).map(ts=>new Date(ts).toLocaleDateString('en-US',{month:'short',day:'numeric'})).join(' · ');
+    return `<div class="sow-card">
+      <div class="sow-crop-name">${crop.emoji} ${crop.label}</div>
+      <div class="sow-note">${crop.note}</div>
+      <div class="sow-status-text ${statusCls}">${statusText}</div>
+      <div class="sow-last">Last sown: ${lastLabel}</div>
+      <button class="sow-btn" onclick="logSowing('${crop.id}')">🌱 Log Sowing</button>
+      ${history ? `<div class="sow-history-line">History: ${history}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function logSowing(cropId) {
+  const ts = Date.now();
+  db.ref(`sowings/${cropId}/${ts}`).set(ts);
+}
+
+(function initSowTracker() {
+  db.ref('sowings').on('value', snap => {
+    SYNC._sowings = snap.val() || {};
+    renderSowTracker();
+  });
+})();
 </script>
 <div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
   <div class="photo-modal-inner" onclick="event.stopPropagation()">
