@@ -85,6 +85,37 @@ nav .nav-brand {
   flex-shrink: 0;
 }
 
+/* === SYNC BADGE === */
+.sync-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.7rem;
+  padding: 4px 10px;
+  border-radius: 12px;
+  margin-left: auto;
+  margin-right: 16px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  flex-shrink: 0;
+}
+.sync-online {
+  background: rgba(76, 175, 80, 0.25);
+  color: #81c784;
+}
+.sync-offline {
+  background: rgba(255, 152, 0, 0.25);
+  color: #ffb74d;
+}
+.sync-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.sync-online .sync-dot { background: #4caf50; }
+.sync-offline .sync-dot { background: #ff9800; }
+
 /* === HEADER === */
 .hero {
   background: linear-gradient(135deg, var(--green-dark) 0%, var(--green) 50%, #6a9b5a 100%);
@@ -886,12 +917,109 @@ h3 {
   .btn, .notes-form { display: none; }
 }
 </style>
+<!-- Firebase SDK (CDN - no npm needed) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyAQApE_EAahhJO04y4x4Bi0pJ-vsGhvD3M",
+    authDomain: "garden-2026-e2341.firebaseapp.com",
+    databaseURL: "https://garden-2026-e2341-default-rtdb.firebaseio.com",
+    projectId: "garden-2026-e2341",
+    storageBucket: "garden-2026-e2341.firebasestorage.app",
+    messagingSenderId: "600636876432",
+    appId: "1:600636876432:web:0a146d6a82ba959cfb1a15"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  // === Shared sync helpers ===
+  const SYNC = {
+    checklistRef: db.ref('checklists'),
+    notesRef: db.ref('notes'),
+    _checkState: {},
+    _notesState: [],
+    _ready: { checks: false, notes: false },
+
+    init() {
+      // Listen for real-time checklist changes
+      this.checklistRef.on('value', snap => {
+        this._checkState = snap.val() || {};
+        this._ready.checks = true;
+        localStorage.setItem('garden2026-checklists', JSON.stringify(this._checkState));
+        if (typeof renderChecklists === 'function') renderChecklists();
+        updateSyncIndicator('connected');
+      }, err => {
+        console.warn('Firebase checklist read failed, using localStorage', err);
+        this._checkState = JSON.parse(localStorage.getItem('garden2026-checklists') || '{}');
+        this._ready.checks = true;
+        updateSyncIndicator('offline');
+      });
+
+      // Listen for real-time notes changes
+      this.notesRef.on('value', snap => {
+        this._notesState = snap.val() || [{ id: 1, date: '2026-03-27', text: 'Dashboard created. Planning phase begins!' }];
+        this._ready.notes = true;
+        localStorage.setItem('garden2026-notes', JSON.stringify(this._notesState));
+        if (typeof renderNotes === 'function') renderNotes();
+        updateSyncIndicator('connected');
+      }, err => {
+        console.warn('Firebase notes read failed, using localStorage', err);
+        try { this._notesState = JSON.parse(localStorage.getItem('garden2026-notes')); } catch {}
+        if (!Array.isArray(this._notesState)) this._notesState = [{ id: 1, date: '2026-03-27', text: 'Dashboard created. Planning phase begins!' }];
+        this._ready.notes = true;
+        updateSyncIndicator('offline');
+      });
+
+      // Monitor connection state
+      db.ref('.info/connected').on('value', snap => {
+        updateSyncIndicator(snap.val() ? 'connected' : 'offline');
+      });
+    },
+
+    getChecks() { return this._checkState; },
+    setCheck(id, val) {
+      this._checkState[id] = val;
+      if (!val) delete this._checkState[id];
+      this.checklistRef.set(this._checkState);
+      localStorage.setItem('garden2026-checklists', JSON.stringify(this._checkState));
+    },
+    clearChecks() {
+      this._checkState = {};
+      this.checklistRef.set({});
+      localStorage.removeItem('garden2026-checklists');
+    },
+
+    getNotes() { return this._notesState; },
+    setNotes(notes) {
+      this._notesState = notes;
+      this.notesRef.set(notes);
+      localStorage.setItem('garden2026-notes', JSON.stringify(notes));
+    }
+  };
+
+  function updateSyncIndicator(status) {
+    const el = document.getElementById('syncStatus');
+    if (!el) return;
+    if (status === 'connected') {
+      el.className = 'sync-badge sync-online';
+      el.innerHTML = '<span class="sync-dot"></span> Synced';
+    } else {
+      el.className = 'sync-badge sync-offline';
+      el.innerHTML = '<span class="sync-dot"></span> Offline';
+    }
+  }
+
+  // Start listening immediately
+  SYNC.init();
+</script>
 </head>
 <body>
 
 <nav>
   <div class="nav-inner">
     <span class="nav-brand">Garden 2026</span>
+    <span id="syncStatus" class="sync-badge sync-offline"><span class="sync-dot"></span> Connecting...</span>
     <a href="#layout">Layout</a>
     <a href="#schedule">Schedule</a>
     <a href="#plants">Plants</a>
@@ -1385,15 +1513,11 @@ function renderShopping() {
 }
 
 // ==========================================
-// CHECKLISTS (with localStorage)
+// CHECKLISTS (synced via Firebase)
 // ==========================================
-const CL_KEY = 'garden2026-checklists';
-function loadChecks() { try { return JSON.parse(localStorage.getItem(CL_KEY) || '{}'); } catch { return {}; } }
-function saveChecks(state) { localStorage.setItem(CL_KEY, JSON.stringify(state)); }
-
 function renderChecklists() {
   const container = document.getElementById('checklistContainer');
-  const state = loadChecks();
+  const state = SYNC.getChecks();
   container.innerHTML = CHECKLISTS.map(group => {
     const total = group.items.length;
     const done = group.items.filter((_, i) => state[`${group.id}-${i}`]).length;
@@ -1429,9 +1553,7 @@ function toggleGroup(header) {
 }
 
 function toggleCheck(id, el) {
-  const state = loadChecks();
-  state[id] = el.checked;
-  saveChecks(state);
+  SYNC.setCheck(id, el.checked);
   const item = el.closest('.check-item');
   item.classList.toggle('done', el.checked);
   // Update progress
@@ -1444,8 +1566,8 @@ function toggleCheck(id, el) {
 }
 
 function resetChecklists() {
-  if (confirm('Reset all checklist progress? This cannot be undone.')) {
-    localStorage.removeItem(CL_KEY);
+  if (confirm('Reset all checklist progress? This resets for BOTH of you and cannot be undone.')) {
+    SYNC.clearChecks();
     renderChecklists();
   }
 }
@@ -1501,20 +1623,10 @@ function renderGantt() {
 }
 
 // ==========================================
-// NOTES (with localStorage)
+// NOTES (synced via Firebase)
 // ==========================================
-const NOTES_KEY = 'garden2026-notes';
-function loadNotes() {
-  try {
-    const notes = JSON.parse(localStorage.getItem(NOTES_KEY));
-    if (Array.isArray(notes)) return notes;
-  } catch {}
-  return [{ id: 1, date: '2026-03-27', text: 'Dashboard created. Planning phase begins!' }];
-}
-function saveNotes(notes) { localStorage.setItem(NOTES_KEY, JSON.stringify(notes)); }
-
 function renderNotes() {
-  const notes = loadNotes();
+  const notes = SYNC.getNotes();
   const list = document.getElementById('notesList');
   list.innerHTML = notes.slice().reverse().map(n => `
     <div class="note-entry">
@@ -1529,18 +1641,18 @@ function addNote() {
   const dateEl = document.getElementById('noteDate');
   const textEl = document.getElementById('noteText');
   if (!textEl.value.trim()) return;
-  const notes = loadNotes();
+  const notes = SYNC.getNotes();
   const id = notes.length ? Math.max(...notes.map(n => n.id)) + 1 : 1;
   notes.push({ id, date: dateEl.value || new Date().toISOString().slice(0, 10), text: textEl.value.trim() });
-  saveNotes(notes);
+  SYNC.setNotes(notes);
   textEl.value = '';
   renderNotes();
 }
 
 function deleteNote(id) {
   if (!confirm('Delete this note?')) return;
-  const notes = loadNotes().filter(n => n.id !== id);
-  saveNotes(notes);
+  const notes = SYNC.getNotes().filter(n => n.id !== id);
+  SYNC.setNotes(notes);
   renderNotes();
 }
 
