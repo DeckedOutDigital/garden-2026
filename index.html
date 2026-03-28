@@ -162,82 +162,114 @@ nav .nav-brand {
   text-shadow: 0 1px 2px rgba(0,0,0,0.5);
 }
 .map-bed strong {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   display: block;
+}
+.map-bed small {
+  font-size: 0.6rem;
+  opacity: 0.9;
 }
 .map-bed-yellow {
   border-color: #fdd835;
   background: rgba(253, 216, 53, 0.25);
-  width: 60px;
-  min-height: 70px;
+  width: 70px;
+  min-height: 40px;
 }
 .map-bed-red {
   border-color: #ef5350;
   background: rgba(239, 83, 80, 0.25);
-  width: 110px;
-  min-height: 70px;
+  width: 120px;
+  min-height: 40px;
 }
 .map-bed-green {
   border-color: #66bb6a;
   background: rgba(102, 187, 106, 0.25);
-  width: 110px;
-  min-height: 70px;
+  width: 120px;
+  min-height: 40px;
+}
+/* main area: triangles on left, yard+house on right */
+.map-main-area {
+  display: flex;
+  width: 100%;
+  flex: 1;
+  gap: 0;
+  min-height: 240px;
+}
+.map-triangles {
+  width: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-shrink: 0;
+  padding: 8px 4px;
+  border-right: 2px dashed rgba(255,255,255,0.2);
+}
+.map-tri {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.map-tri svg { display: block; }
+.tri-1 svg { width: 40px; height: 35px; }
+.tri-2 svg { width: 35px; height: 30px; }
+.tri-3 svg { width: 35px; height: 30px; }
+.tri-4 svg { width: 28px; height: 22px; }
+.map-tri span {
+  position: absolute;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+.map-tri-label {
+  font-size: 0.55rem;
+  color: rgba(255,255,255,0.6);
+  text-align: center;
+  line-height: 1.2;
+  margin-top: 2px;
+  font-weight: 600;
+}
+.map-yard-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
 }
 .map-yard {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(255,255,255,0.5);
-  font-size: 0.75rem;
-  min-height: 60px;
+  color: rgba(255,255,255,0.4);
+  font-size: 0.7rem;
   width: 100%;
-}
-.map-house {
-  width: 85%;
-  max-width: 380px;
-  margin: 0 auto;
 }
 .map-house-inner {
   background: #78909c;
   border: 2px solid #546e7a;
   border-radius: 4px;
-  padding: 22px 12px;
+  padding: 18px 24px;
   text-align: center;
   color: white;
   font-weight: 700;
   font-size: 1rem;
   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-}
-.map-side-label {
-  position: absolute;
-  left: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-}
-.map-side-arrow {
-  writing-mode: horizontal-tb;
-  color: rgba(255,255,255,0.7);
-  font-size: 0.6rem;
-  font-weight: 600;
-  text-align: center;
-  line-height: 1.3;
-  background: rgba(0,0,0,0.25);
-  padding: 6px 8px;
-  border-radius: 6px;
-}
-.map-side-arrow small {
-  font-weight: 400;
-  opacity: 0.85;
+  width: 85%;
+  max-width: 320px;
 }
 .map-containers-label {
   text-align: center;
-  color: rgba(255,255,255,0.7);
-  font-size: 0.65rem;
+  color: rgba(255,255,255,0.6);
+  font-size: 0.6rem;
   font-weight: 600;
   margin-top: 8px;
   padding-top: 6px;
-  border-top: 2px dashed rgba(255,255,255,0.3);
+  border-top: 2px dashed rgba(255,255,255,0.25);
   width: 100%;
 }
 .map-containers-label small {
@@ -245,20 +277,23 @@ nav .nav-brand {
 }
 .map-sun-path {
   position: absolute;
-  bottom: 8px;
-  right: 12px;
-  font-size: 0.6rem;
-  color: rgba(255,255,255,0.5);
+  bottom: 6px;
+  right: 10px;
+  font-size: 0.55rem;
+  color: rgba(255,255,255,0.4);
 }
 @media (max-width: 500px) {
-  .property-map { padding: 12px 10px 16px; min-height: 360px; }
+  .property-map { padding: 12px 8px 16px; min-height: 380px; }
   .map-beds-row { gap: 4px; }
-  .map-bed { padding: 6px 4px; font-size: 0.58rem; }
-  .map-bed strong { font-size: 0.68rem; }
-  .map-bed-yellow { width: 50px; }
-  .map-bed-red, .map-bed-green { width: 90px; }
-  .map-house-inner { padding: 16px 8px; font-size: 0.9rem; }
-  .map-side-label { display: none; }
+  .map-bed { padding: 5px 3px; font-size: 0.55rem; }
+  .map-bed strong { font-size: 0.7rem; }
+  .map-bed-yellow { width: 55px; }
+  .map-bed-red, .map-bed-green { width: 95px; }
+  .map-triangles { width: 60px; }
+  .tri-1 svg { width: 32px; height: 28px; }
+  .tri-2 svg, .tri-3 svg { width: 28px; height: 24px; }
+  .tri-4 svg { width: 22px; height: 18px; }
+  .map-house-inner { padding: 14px 12px; font-size: 0.85rem; }
 }
 
 /* === SYNC BADGE === */
@@ -1242,47 +1277,60 @@ h3 {
       <!-- tree -->
       <div class="map-tree">&#x1F333;<br><span>Tree</span></div>
 
-      <!-- beds row -->
+      <!-- beds row - long side along fence (east-west) -->
       <div class="map-beds-row">
         <div class="map-bed map-bed-yellow">
-          <strong>Bed C</strong><br>3&times;6<br>Salad &amp; Herbs
+          <strong>C</strong><br><small>3&times;6</small>
         </div>
         <div class="map-bed map-bed-red">
-          <strong>Bed A</strong><br>4&times;8<br>Tomatoes &amp; Peppers
+          <strong>Bed A</strong><br><small>4&times;8 &middot; Tomatoes</small>
         </div>
         <div class="map-bed map-bed-green">
-          <strong>Bed B</strong><br>4&times;8<br>Vines &amp; Climb
+          <strong>Bed B</strong><br><small>4&times;8 &middot; Vines</small>
         </div>
       </div>
 
-      <!-- yard space -->
-      <div class="map-yard">
-        <span>&#x2600;&#xFE0F; Backyard (~25-30 ft)</span>
-      </div>
-
-      <!-- house -->
-      <div class="map-house">
-        <div class="map-house-inner">
-          &#x1F3E0; House
+      <!-- main area with house + side triangles -->
+      <div class="map-main-area">
+        <!-- west side triangles -->
+        <div class="map-triangles">
+          <div class="map-tri tri-1" title="Shade 1 (largest)">
+            <svg viewBox="0 0 40 35"><polygon points="0,0 40,0 40,35" fill="rgba(253,216,53,0.5)" stroke="#fdd835" stroke-width="2"/></svg>
+            <span>1</span>
+          </div>
+          <div class="map-tri tri-2" title="Shade 2">
+            <svg viewBox="0 0 35 30"><polygon points="0,0 35,15 0,30" fill="rgba(253,216,53,0.5)" stroke="#fdd835" stroke-width="2"/></svg>
+            <span>2</span>
+          </div>
+          <div class="map-tri tri-3" title="Shade 3">
+            <svg viewBox="0 0 35 30"><polygon points="0,0 35,15 0,30" fill="rgba(253,216,53,0.5)" stroke="#fdd835" stroke-width="2"/></svg>
+            <span>3</span>
+          </div>
+          <div class="map-tri tri-4" title="Shade 4 (smallest)">
+            <svg viewBox="0 0 30 25"><polygon points="0,0 30,12 0,25" fill="rgba(253,216,53,0.5)" stroke="#fdd835" stroke-width="2"/></svg>
+            <span>4</span>
+          </div>
+          <div class="map-tri-label">Side Yard<br>Shade Beds</div>
         </div>
-      </div>
 
-      <!-- side yard label -->
-      <div class="map-side-label">
-        <div class="map-side-arrow">&#x2190; West Side Yard<br>
-          <small>&#x25E3; Shade Triangles 1-4</small>
+        <!-- yard + house column -->
+        <div class="map-yard-col">
+          <div class="map-yard">
+            <span>&#x2600;&#xFE0F; Backyard (~25-30 ft)</span>
+          </div>
+          <div class="map-house-inner">
+            &#x1F3E0; House
+          </div>
+          <div class="map-containers-label">
+            South Side / Driveway<br>
+            <small>&#x1FAB4; Containers 1 &amp; 2 here for max sun</small>
+          </div>
         </div>
-      </div>
-
-      <!-- containers label -->
-      <div class="map-containers-label">
-        South Side / Driveway<br>
-        <small>&#x1FAB4; Container 1 &amp; 2 (place here for max sun)</small>
       </div>
 
       <!-- sun path -->
       <div class="map-sun-path">
-        <span>&#x2600;&#xFE0F; Sun path: E &#x2192; S &#x2192; W</span>
+        <span>&#x2600;&#xFE0F; Sun: E &#x2192; S &#x2192; W</span>
       </div>
     </div>
   </div>
