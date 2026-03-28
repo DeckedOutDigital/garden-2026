@@ -1139,6 +1139,72 @@ h3 {
   font-size: 1rem;
 }
 
+/* === PHOTOS === */
+.photo-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+.photo-tab {
+  padding: 6px 14px; border-radius: 20px; border: 2px solid var(--border);
+  background: var(--card); cursor: pointer; font-size: 0.8rem; font-weight: 600;
+  color: var(--text-muted); transition: all 0.2s;
+}
+.photo-tab.active { background: var(--green); color: white; border-color: var(--green); }
+.photo-upload-btn {
+  display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px;
+  background: var(--green); color: white; border: none; border-radius: 8px;
+  cursor: pointer; font-size: 0.9rem; font-weight: 600; margin-bottom: 16px;
+  transition: background 0.2s;
+}
+.photo-upload-btn:hover { background: var(--green-dark); }
+.photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+.photo-item {
+  position: relative; border-radius: 8px; overflow: hidden;
+  box-shadow: var(--shadow); cursor: pointer; aspect-ratio: 1;
+}
+.photo-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.2s; display: block; }
+.photo-item:hover img { transform: scale(1.05); }
+.photo-meta {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.72));
+  color: white; padding: 20px 8px 6px; font-size: 0.68rem;
+}
+.photo-date { opacity: 0.8; }
+.photo-caption { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.photo-delete {
+  position: absolute; top: 5px; right: 5px; background: rgba(0,0,0,0.55); color: white;
+  border: none; border-radius: 50%; width: 24px; height: 24px; cursor: pointer;
+  font-size: 14px; display: none; align-items: center; justify-content: center; line-height: 1;
+}
+.photo-item:hover .photo-delete { display: flex; }
+.photo-empty { text-align: center; color: var(--text-muted); padding: 40px 20px; font-size: 0.9rem; line-height: 1.8; }
+.photo-modal {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88);
+  z-index: 1000; align-items: center; justify-content: center; padding: 20px;
+}
+.photo-modal.open { display: flex; }
+.photo-modal-inner { max-width: 92vw; max-height: 90vh; position: relative; }
+.photo-modal-inner img { max-width: 100%; max-height: 82vh; border-radius: 8px; display: block; }
+.photo-modal-caption { color: white; text-align: center; margin-top: 10px; font-size: 0.95rem; }
+.photo-modal-close {
+  position: absolute; top: -14px; right: -14px; background: white; border: none;
+  border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-size: 18px;
+  display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.caption-modal {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+  z-index: 1001; align-items: center; justify-content: center; padding: 20px;
+}
+.caption-modal.open { display: flex; }
+.caption-modal-box {
+  background: white; border-radius: 12px; padding: 24px;
+  width: 100%; max-width: 380px; box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+.caption-modal-box h3 { margin-bottom: 12px; color: var(--green-dark); font-size: 1rem; }
+.caption-modal-box input {
+  width: 100%; padding: 10px 14px; border: 2px solid var(--border);
+  border-radius: 8px; font-size: 0.95rem; margin-bottom: 16px; outline: none; box-sizing: border-box;
+}
+.caption-modal-box input:focus { border-color: var(--green); }
+.caption-modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+
 /* === RESPONSIVE === */
 @media (max-width: 900px) {
   .beds-grid { grid-template-columns: 1fr; }
@@ -1182,8 +1248,10 @@ h3 {
   const SYNC = {
     checklistRef: db.ref('checklists'),
     notesRef: db.ref('notes'),
+    photosRef: db.ref('photos'),
     _checkState: {},
     _notesState: [],
+    _photos: {},
     _ready: { checks: false, notes: false },
 
     init() {
@@ -1216,6 +1284,15 @@ h3 {
         updateSyncIndicator('offline');
       });
 
+      // Listen for real-time photo changes
+      this.photosRef.on('value', snap => {
+        this._photos = snap.val() || {};
+        if (typeof renderPhotoGallery === 'function') renderPhotoGallery();
+      }, err => {
+        console.warn('Firebase photos read failed', err);
+        this._photos = {};
+      });
+
       // Monitor connection state
       db.ref('.info/connected').on('value', snap => {
         updateSyncIndicator(snap.val() ? 'connected' : 'offline');
@@ -1240,6 +1317,18 @@ h3 {
       this._notesState = notes;
       this.notesRef.set(notes);
       localStorage.setItem('garden2026-notes', JSON.stringify(notes));
+    },
+
+    getPhotos(loc) {
+      return Object.entries(this._photos[loc] || {}).sort((a, b) => b[0] - a[0]);
+    },
+    addPhoto(loc, data, caption) {
+      const ts = Date.now();
+      const date = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      this.photosRef.child(loc).child(ts).set({ data, caption, date });
+    },
+    deletePhoto(loc, ts) {
+      this.photosRef.child(loc).child(ts).remove();
     }
   };
 
@@ -1271,6 +1360,7 @@ h3 {
     <a href="#checklists">Checklists</a>
     <a href="#harvest">Harvest</a>
     <a href="#irrigation">Irrigation</a>
+    <a href="#photos">Photos</a>
     <a href="#notes">Notes</a>
   </div>
 </nav>
@@ -1617,6 +1707,17 @@ h3 {
 </section>
 
 <!-- ============ NOTES ============ -->
+<!-- ============ PHOTOS ============ -->
+<section id="photos">
+  <h2><span class="icon">📷</span> Growth Photos</h2>
+  <div class="photo-tabs" id="photoTabs"></div>
+  <button class="photo-upload-btn" onclick="document.getElementById('photoFileInput').click()">
+    📷 Add Photo
+  </button>
+  <input type="file" id="photoFileInput" accept="image/*" capture="environment" style="display:none" onchange="handlePhotoUpload(event)">
+  <div id="photoGallery"></div>
+</section>
+
 <section id="notes">
   <h2><span class="icon">&#x1f4dd;</span> Season Notes &amp; Log</h2>
   <div class="notes-form">
@@ -2023,10 +2124,143 @@ document.querySelectorAll('nav a').forEach(a => {
 // INIT
 // ==========================================
 renderTimeline();
+// ==========================================
+// PHOTOS
+// ==========================================
+const PHOTO_LOCS = [
+  { id: 'bed-a', label: 'Bed A 🔴' },
+  { id: 'bed-b', label: 'Bed B 🟢' },
+  { id: 'bed-c', label: 'Bed C 🟡' },
+  { id: 'shade-1', label: 'Shade 1' },
+  { id: 'shade-2', label: 'Shade 2' },
+  { id: 'shade-3', label: 'Shade 3' },
+  { id: 'shade-4', label: 'Shade 4' },
+  { id: 'container-1', label: 'Container 1' },
+  { id: 'container-2', label: 'Container 2' },
+];
+
+let activePhotoLoc = 'bed-a';
+let pendingPhotoData = null;
+
+function renderPhotoTabs() {
+  const tabs = document.getElementById('photoTabs');
+  if (!tabs) return;
+  tabs.innerHTML = PHOTO_LOCS.map(loc =>
+    `<button class="photo-tab${activePhotoLoc === loc.id ? ' active' : ''}" onclick="setPhotoLoc('${loc.id}')">${loc.label}</button>`
+  ).join('');
+}
+
+function setPhotoLoc(id) {
+  activePhotoLoc = id;
+  renderPhotoGallery();
+}
+
+function renderPhotoGallery() {
+  const gallery = document.getElementById('photoGallery');
+  if (!gallery) return;
+  renderPhotoTabs();
+  const photos = SYNC.getPhotos(activePhotoLoc);
+  const locLabel = PHOTO_LOCS.find(l => l.id === activePhotoLoc)?.label || activePhotoLoc;
+  if (!photos.length) {
+    gallery.innerHTML = `<div class="photo-empty">📷 No photos yet for ${locLabel}.<br>Tap <strong>Add Photo</strong> to start tracking growth!</div>`;
+    return;
+  }
+  gallery.innerHTML = `<div class="photo-grid">${photos.map(([ts, p]) => `
+    <div class="photo-item" onclick="openPhotoModal('${ts}')">
+      <img src="${p.data}" alt="${p.caption || ''}">
+      <div class="photo-meta">
+        <div class="photo-date">${p.date}</div>
+        ${p.caption ? `<div class="photo-caption">${p.caption}</div>` : ''}
+      </div>
+      <button class="photo-delete" onclick="event.stopPropagation();deletePhoto('${ts}')">&#x2715;</button>
+    </div>`).join('')}
+  </div>`;
+}
+
+async function compressImage(file) {
+  return new Promise(resolve => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let w = img.width, h = img.height;
+        const maxW = 900;
+        if (w > maxW) { h = Math.round(h * maxW / w); w = maxW; }
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL('image/jpeg', 0.65));
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+async function handlePhotoUpload(event) {
+  const file = event.target.files[0];
+  event.target.value = '';
+  if (!file) return;
+  pendingPhotoData = await compressImage(file);
+  document.getElementById('captionInput').value = '';
+  document.getElementById('captionModal').classList.add('open');
+  setTimeout(() => document.getElementById('captionInput').focus(), 100);
+}
+
+function closeCaptionModal(save) {
+  document.getElementById('captionModal').classList.remove('open');
+  if (save && pendingPhotoData) {
+    const caption = document.getElementById('captionInput').value.trim();
+    SYNC.addPhoto(activePhotoLoc, pendingPhotoData, caption);
+  }
+  pendingPhotoData = null;
+}
+
+function openPhotoModal(ts) {
+  const photo = SYNC.getPhotos(activePhotoLoc).find(([t]) => t === ts);
+  if (!photo) return;
+  document.getElementById('photoModalImg').src = photo[1].data;
+  document.getElementById('photoModalCaption').textContent = photo[1].caption || '';
+  document.getElementById('photoModal').classList.add('open');
+}
+
+function closePhotoModal() {
+  document.getElementById('photoModal').classList.remove('open');
+  document.getElementById('photoModalImg').src = '';
+}
+
+function deletePhoto(ts) {
+  if (confirm('Delete this photo?')) SYNC.deletePhoto(activePhotoLoc, ts);
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closePhotoModal(); document.getElementById('captionModal').classList.remove('open'); }
+  if (e.key === 'Enter' && document.getElementById('captionModal').classList.contains('open')) closeCaptionModal(true);
+});
+
+renderPhotoGallery();
 renderPlants();
 renderChecklists();
 renderGantt();
 renderNotes();
 </script>
+<div class="photo-modal" id="photoModal" onclick="closePhotoModal()">
+  <div class="photo-modal-inner" onclick="event.stopPropagation()">
+    <button class="photo-modal-close" onclick="closePhotoModal()">&#x2715;</button>
+    <img id="photoModalImg" src="" alt="">
+    <div class="photo-modal-caption" id="photoModalCaption"></div>
+  </div>
+</div>
+
+<div class="caption-modal" id="captionModal">
+  <div class="caption-modal-box">
+    <h3>📷 Add a caption (optional)</h3>
+    <input type="text" id="captionInput" placeholder="e.g. First tomato flowers! 🌸" maxlength="80">
+    <div class="caption-modal-actions">
+      <button class="btn" onclick="closeCaptionModal(false)">Skip</button>
+      <button class="btn btn-primary" onclick="closeCaptionModal(true)">Save Photo</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
