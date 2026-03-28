@@ -586,6 +586,7 @@ h3 {
 .cell-herb { background: #7e57c2; }
 .cell-scallion { background: #9ccc65; color: #333; text-shadow: none; }
 .cell-kale { background: #558b2f; }
+        .cell-rosemary { background: #5d8a5e; }
 .cell-radish { background: #ef5350; }
 .cell-sorrel { background: #26a69a; }
 .cell-arugula { background: #66bb6a; }
@@ -1557,19 +1558,34 @@ h3 {
       </div>
       <div class="bed-visual">
         <div class="bed-diagram b3x6">
-          <div class="bed-cell cell-scallion" style="grid-column:1/3;grid-row:1" title="Green Onions / Scallions">Scallions</div>
-          <div class="bed-cell cell-herb" style="grid-column:3/5;grid-row:1" title="Cilantro (succession sow)">Cilantro</div>
-          <div class="bed-cell cell-herb" style="grid-column:5/7;grid-row:1" title="Cilantro">Cilantro</div>
-          <div class="bed-cell cell-lettuce" style="grid-column:1/3;grid-row:2" title="Leaf Lettuce Mix">Lettuce</div>
-          <div class="bed-cell cell-spinach" style="grid-column:3/5;grid-row:2" title="Spinach">Spinach</div>
-          <div class="bed-cell cell-lettuce" style="grid-column:5/7;grid-row:2" title="Leaf Lettuce Mix">Lettuce</div>
-          <div class="bed-cell cell-herb" style="grid-column:1/2;grid-row:3" title="Thyme (perennial)">Thyme</div>
-          <div class="bed-cell cell-herb" style="grid-column:2/4;grid-row:3" title="Oregano (perennial)">Oregano</div>
-          <div class="bed-cell cell-herb" style="grid-column:4/5;grid-row:3" title="Chives (perennial)">Chives</div>
-          <div class="bed-cell cell-marigold" style="grid-column:5/7;grid-row:3" title="Marigolds">Marigold</div>
+          <div class="bed-cell cell-kale" style="grid-column:1/3;grid-row:1" title="Kale (Lacinato)">Kale</div>
+          <div class="bed-cell cell-kale" style="grid-column:3/5;grid-row:1" title="Kale (Red Russian)">Kale</div>
+          <div class="bed-cell cell-scallion" style="grid-column:5/7;grid-row:1" title="Green Onions / Scallions">Scallions</div>
+          <div class="bed-cell cell-rosemary" style="grid-column:1/3;grid-row:2/4" title="Rosemary (perennial shrub — give 2ft+ space)">Rosemary</div>
+          <div class="bed-cell cell-lettuce" style="grid-column:3/5;grid-row:2" title="Leaf Lettuce Mix">Lettuce</div>
+          <div class="bed-cell cell-herb" style="grid-column:5/7;grid-row:2" title="Cilantro (succession sow)">Cilantro</div>
+          <div class="bed-cell cell-spinach" style="grid-column:3/4;grid-row:3" title="Spinach">Spinach</div>
+          <div class="bed-cell cell-herb" style="grid-column:4/5;grid-row:3" title="Thyme (perennial)">Thyme</div>
+          <div class="bed-cell cell-herb" style="grid-column:5/6;grid-row:3" title="Chives (perennial)">Chives</div>
+          <div class="bed-cell cell-marigold" style="grid-column:6/7;grid-row:3" title="Marigolds">Marigold</div>
         </div>
       </div>
-      <div class="tip"><strong>&#x1F7E1; West bed (yellow):</strong> Farthest from the tree = earliest morning sun. Great for greens &amp; herbs. Succession sow cilantro every 3 weeks and lettuce every 2&ndash;3 weeks for continuous harvest.</div>
+      <div class="bed-plant-list">
+        <table>
+          <tr><th>Zone</th><th>Plant</th><th>Qty</th></tr>
+          <tr><td>Back (N/fence)</td><td><span class="color-dot" style="background:#558b2f"></span>Kale &mdash; Lacinato</td><td>1</td></tr>
+          <tr><td>Back (N/fence)</td><td><span class="color-dot" style="background:#558b2f"></span>Kale &mdash; Red Russian</td><td>1</td></tr>
+          <tr><td>Back (N/fence)</td><td><span class="color-dot" style="background:#9ccc65"></span>Scallions</td><td>8&ndash;12</td></tr>
+          <tr><td>Middle</td><td><span class="color-dot" style="background:#5d8a5e"></span>Rosemary (perennial)</td><td>1</td></tr>
+          <tr><td>Middle</td><td><span class="color-dot" style="background:#81c784"></span>Leaf Lettuce Mix</td><td>4&ndash;6</td></tr>
+          <tr><td>Middle</td><td><span class="color-dot" style="background:#7e57c2"></span>Cilantro</td><td>3&ndash;4</td></tr>
+          <tr><td>Front (S/house)</td><td><span class="color-dot" style="background:#4caf50"></span>Spinach</td><td>4&ndash;6</td></tr>
+          <tr><td>Front (S/house)</td><td><span class="color-dot" style="background:#7e57c2"></span>Thyme (perennial)</td><td>1</td></tr>
+          <tr><td>Front (S/house)</td><td><span class="color-dot" style="background:#7e57c2"></span>Chives (perennial)</td><td>1</td></tr>
+          <tr><td>Front (S/house)</td><td><span class="color-dot" style="background:#f1c40f"></span>Marigolds</td><td>2&ndash;3</td></tr>
+        </table>
+      </div>
+      <div class="tip"><strong>&#x1F7E1; West bed (yellow):</strong> Kale at the back won&rsquo;t shade the shorter greens &mdash; it can be harvested as cut-and-come-again all season. <strong>Rosemary needs 2&ndash;3ft of space at maturity</strong> &mdash; plant it in the corner so it can spread outward. Succession sow cilantro every 3 weeks and lettuce every 2&ndash;3 weeks for continuous harvest.</div>
     </div>
   </div>
 
@@ -1786,9 +1802,11 @@ const PLANTS = [
   { name: 'Radishes', cat: 'vegetable', sun: 'part-shade', loc: 'Shade 1', season: 'Spring/Fall', buy: 'Seed', cost: '$1\u20132/pkt' },
   { name: 'Green Onions / Scallions', cat: 'vegetable', sun: 'full', loc: 'Bed C', season: 'Spring\u2013Fall', buy: 'Seed', cost: '$2\u20133/pkt' },
   { name: 'Cilantro', cat: 'herb', sun: 'part-shade', loc: 'Bed C, Shade 3', season: 'Spring/Fall', buy: 'Seed', cost: '$2\u20133/pkt' },
+  { name: 'Rosemary', cat: 'herb', sun: 'full', loc: 'Bed C', season: 'Perennial', buy: 'Seedling', cost: '$3\u20135' },
+  { name: 'Kale \u2014 Lacinato', cat: 'green', sun: 'part-shade', loc: 'Bed C', season: 'Spring\u2013Fall', buy: 'Seed', cost: '$2\u20133/pkt' },
+  { name: 'Kale \u2014 Red Russian', cat: 'green', sun: 'part-shade', loc: 'Bed C', season: 'Spring\u2013Fall', buy: 'Seed', cost: '$2\u20133/pkt' },
   { name: 'Sorrel', cat: 'herb', sun: 'shade', loc: 'Shade 3', season: 'Perennial', buy: 'Seedling', cost: '$3\u20135' },
   { name: 'Thyme', cat: 'herb', sun: 'full', loc: 'Bed C', season: 'Perennial', buy: 'Seedling', cost: '$3\u20135' },
-  { name: 'Oregano', cat: 'herb', sun: 'full', loc: 'Bed C', season: 'Perennial', buy: 'Seedling', cost: '$3\u20135' },
   { name: 'Chives', cat: 'herb', sun: 'full', loc: 'Bed C', season: 'Perennial', buy: 'Seedling', cost: '$3\u20135' },
   { name: 'Garlic', cat: 'vegetable', sun: 'full', loc: 'Any bed (fall)', season: 'Fall\u2192Next yr', buy: 'Bulbs', cost: '$8\u201312/lb' },
   { name: 'Nasturtiums', cat: 'ornamental', sun: 'full', loc: 'Container 2', season: 'Summer', buy: 'Seed', cost: '$2\u20133/pkt' },
