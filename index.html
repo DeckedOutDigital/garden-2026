@@ -85,6 +85,182 @@ nav .nav-brand {
   flex-shrink: 0;
 }
 
+/* === PROPERTY MAP === */
+.property-map-wrap {
+  margin-bottom: 24px;
+}
+.property-map {
+  position: relative;
+  background: linear-gradient(180deg, #3a5f3a 0%, #4a7a4a 30%, #5d8a5d 60%, #b8c8b0 85%, #d4cfc0 100%);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px 20px;
+  max-width: 560px;
+  margin: 0 auto;
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  overflow: hidden;
+}
+.compass {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  color: white;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-align: center;
+  line-height: 1.1;
+  opacity: 0.9;
+}
+.map-alley {
+  width: 100%;
+  text-align: center;
+  color: rgba(255,255,255,0.8);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-bottom: 2px dashed rgba(255,255,255,0.4);
+  padding-bottom: 6px;
+  margin-bottom: 10px;
+}
+.map-tree {
+  position: absolute;
+  top: 38px;
+  right: 30px;
+  font-size: 1.8rem;
+  text-align: center;
+  line-height: 1;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+.map-tree span {
+  font-size: 0.6rem;
+  color: rgba(255,255,255,0.8);
+  display: block;
+}
+.map-beds-row {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: flex-end;
+  margin-bottom: 8px;
+  width: 100%;
+  max-width: 420px;
+}
+.map-bed {
+  border: 3px solid;
+  border-radius: 4px;
+  padding: 8px 6px;
+  text-align: center;
+  font-size: 0.65rem;
+  line-height: 1.3;
+  color: #fff;
+  font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+.map-bed strong {
+  font-size: 0.75rem;
+  display: block;
+}
+.map-bed-yellow {
+  border-color: #fdd835;
+  background: rgba(253, 216, 53, 0.25);
+  width: 60px;
+  min-height: 70px;
+}
+.map-bed-red {
+  border-color: #ef5350;
+  background: rgba(239, 83, 80, 0.25);
+  width: 110px;
+  min-height: 70px;
+}
+.map-bed-green {
+  border-color: #66bb6a;
+  background: rgba(102, 187, 106, 0.25);
+  width: 110px;
+  min-height: 70px;
+}
+.map-yard {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.5);
+  font-size: 0.75rem;
+  min-height: 60px;
+  width: 100%;
+}
+.map-house {
+  width: 85%;
+  max-width: 380px;
+  margin: 0 auto;
+}
+.map-house-inner {
+  background: #78909c;
+  border: 2px solid #546e7a;
+  border-radius: 4px;
+  padding: 22px 12px;
+  text-align: center;
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.map-side-label {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.map-side-arrow {
+  writing-mode: horizontal-tb;
+  color: rgba(255,255,255,0.7);
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.3;
+  background: rgba(0,0,0,0.25);
+  padding: 6px 8px;
+  border-radius: 6px;
+}
+.map-side-arrow small {
+  font-weight: 400;
+  opacity: 0.85;
+}
+.map-containers-label {
+  text-align: center;
+  color: rgba(255,255,255,0.7);
+  font-size: 0.65rem;
+  font-weight: 600;
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 2px dashed rgba(255,255,255,0.3);
+  width: 100%;
+}
+.map-containers-label small {
+  font-weight: 400;
+}
+.map-sun-path {
+  position: absolute;
+  bottom: 8px;
+  right: 12px;
+  font-size: 0.6rem;
+  color: rgba(255,255,255,0.5);
+}
+@media (max-width: 500px) {
+  .property-map { padding: 12px 10px 16px; min-height: 360px; }
+  .map-beds-row { gap: 4px; }
+  .map-bed { padding: 6px 4px; font-size: 0.58rem; }
+  .map-bed strong { font-size: 0.68rem; }
+  .map-bed-yellow { width: 50px; }
+  .map-bed-red, .map-bed-green { width: 90px; }
+  .map-house-inner { padding: 16px 8px; font-size: 0.9rem; }
+  .map-side-label { display: none; }
+}
+
 /* === SYNC BADGE === */
 .sync-badge {
   display: inline-flex;
@@ -1053,6 +1229,64 @@ h3 {
     <br><strong>Main factor:</strong> The <strong>large tree on the east side</strong> blocks 2-3 hrs of morning sun on the east (green) bed. Tomatoes &amp; peppers go in the <strong>middle bed</strong> for max all-day sun. Peas/vines go in the east bed (they tolerate morning shade). Salad &amp; herbs fit the smaller west bed.
     <br><em>Containers should be placed on the south-facing driveway or patio for 10+ hrs of sun.</em>
   </div>
+  <!-- PROPERTY MAP -->
+  <div class="property-map-wrap">
+    <h3 style="text-align:center;margin-bottom:8px;">Property Overview (Aerial View &mdash; North &#x2191;)</h3>
+    <div class="property-map">
+      <!-- compass -->
+      <div class="compass">N<br>&#x2191;</div>
+
+      <!-- alley / back fence -->
+      <div class="map-alley">Back Fence / Alley</div>
+
+      <!-- tree -->
+      <div class="map-tree">&#x1F333;<br><span>Tree</span></div>
+
+      <!-- beds row -->
+      <div class="map-beds-row">
+        <div class="map-bed map-bed-yellow">
+          <strong>Bed C</strong><br>3&times;6<br>Salad &amp; Herbs
+        </div>
+        <div class="map-bed map-bed-red">
+          <strong>Bed A</strong><br>4&times;8<br>Tomatoes &amp; Peppers
+        </div>
+        <div class="map-bed map-bed-green">
+          <strong>Bed B</strong><br>4&times;8<br>Vines &amp; Climb
+        </div>
+      </div>
+
+      <!-- yard space -->
+      <div class="map-yard">
+        <span>&#x2600;&#xFE0F; Backyard (~25-30 ft)</span>
+      </div>
+
+      <!-- house -->
+      <div class="map-house">
+        <div class="map-house-inner">
+          &#x1F3E0; House
+        </div>
+      </div>
+
+      <!-- side yard label -->
+      <div class="map-side-label">
+        <div class="map-side-arrow">&#x2190; West Side Yard<br>
+          <small>&#x25E3; Shade Triangles 1-4</small>
+        </div>
+      </div>
+
+      <!-- containers label -->
+      <div class="map-containers-label">
+        South Side / Driveway<br>
+        <small>&#x1FAB4; Container 1 &amp; 2 (place here for max sun)</small>
+      </div>
+
+      <!-- sun path -->
+      <div class="map-sun-path">
+        <span>&#x2600;&#xFE0F; Sun path: E &#x2192; S &#x2192; W</span>
+      </div>
+    </div>
+  </div>
+
   <h3>Raised Beds &mdash; Back Fence (8-10 hrs sun Apr&ndash;Sep)</h3>
   <div class="beds-grid">
 
