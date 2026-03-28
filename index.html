@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>2026 Northglenn Garden Dashboard</title>
+<title>Jano's Jungle — 2026</title>
 <style>
 :root {
   --bg: #f7f5ed;
@@ -34,7 +34,8 @@
 
 body {
   font-family: var(--font);
-  background: var(--bg);
+  background-color: var(--bg);
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M30 5 Q35 15 30 25 Q25 15 30 5Z' fill='%234a7c59' opacity='0.04'/%3E%3Cpath d='M10 35 Q15 45 10 55 Q5 45 10 35Z' fill='%234a7c59' opacity='0.04'/%3E%3Cpath d='M50 20 Q55 30 50 40 Q45 30 50 20Z' fill='%234a7c59' opacity='0.04'/%3E%3C/g%3E%3C/svg%3E");
   color: var(--text);
   line-height: 1.6;
 }
@@ -356,9 +357,11 @@ nav .nav-brand {
 
 /* === HEADER === */
 .hero {
-  background: linear-gradient(135deg, var(--green-dark) 0%, var(--green) 50%, #6a9b5a 100%);
+  background:
+    linear-gradient(to bottom, rgba(20,50,25,0.72) 0%, rgba(30,70,35,0.78) 100%),
+    url('https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=1400&q=80') center/cover no-repeat;
   color: white;
-  padding: 48px 24px 40px;
+  padding: 64px 24px 52px;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -366,39 +369,54 @@ nav .nav-brand {
 .hero::before {
   content: '';
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle at 30% 70%, rgba(255,255,255,0.05) 0%, transparent 50%),
-              radial-gradient(circle at 70% 30%, rgba(255,255,255,0.08) 0%, transparent 40%);
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.07) 0%, transparent 65%);
+  pointer-events: none;
+}
+.hero::after {
+  content: '🌿';
+  position: absolute;
+  font-size: 8rem;
+  opacity: 0.06;
+  top: -10px;
+  right: 30px;
+  line-height: 1;
+  pointer-events: none;
 }
 .hero h1 {
   font-family: var(--font-heading);
-  font-size: 2.4rem;
-  margin-bottom: 8px;
+  font-size: 3rem;
+  margin-bottom: 6px;
   position: relative;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 16px rgba(0,0,0,0.4);
 }
 .hero .subtitle {
-  font-size: 1.05rem;
-  opacity: 0.9;
+  font-size: 1.1rem;
+  opacity: 0.85;
   position: relative;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 300;
 }
 .hero .badges {
   display: flex;
   justify-content: center;
-  gap: 12px;
-  margin-top: 16px;
+  gap: 10px;
+  margin-top: 20px;
   flex-wrap: wrap;
   position: relative;
 }
 .hero .badge {
-  background: rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.18);
   padding: 6px 16px;
   border-radius: 20px;
-  font-size: 0.85rem;
-  backdrop-filter: blur(4px);
+  font-size: 0.82rem;
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.22);
+  transition: background 0.2s;
 }
+.hero .badge:hover { background: rgba(255,255,255,0.28); }
 
 /* === MAIN === */
 main {
@@ -417,8 +435,9 @@ h2 {
   font-size: 1.6rem;
   color: var(--green-dark);
   margin-bottom: 20px;
-  padding-bottom: 8px;
-  border-bottom: 2px solid var(--border);
+  padding-bottom: 10px;
+  border-bottom: 3px solid transparent;
+  border-image: linear-gradient(90deg, var(--green), var(--gold), transparent) 1;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -439,6 +458,11 @@ h3 {
   padding: 20px;
   margin-bottom: 16px;
   border: 1px solid var(--border);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.card:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  transform: translateY(-2px);
 }
 
 .tip {
@@ -464,18 +488,28 @@ h3 {
   box-shadow: var(--shadow);
   border: 1px solid var(--border);
   overflow: hidden;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.bed-card:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.13);
+  transform: translateY(-2px);
 }
 .bed-card.full-width {
   grid-column: 1 / -1;
 }
 .bed-header {
-  background: var(--green);
+  background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
   color: white;
   padding: 12px 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+.bed-header.bed-a { background: linear-gradient(135deg, #c0392b 0%, #922b21 100%); }
+.bed-header.bed-b { background: linear-gradient(135deg, #27ae60 0%, #1e8449 100%); }
+.bed-header.bed-c { background: linear-gradient(135deg, #d4a843 0%, #b7860e 100%); }
+.bed-header.shade { background: linear-gradient(135deg, #7b5ea7 0%, #5b3e87 100%); }
+.bed-header.container { background: linear-gradient(135deg, #2980b9 0%, #1a5276 100%); }
 .bed-header h3 {
   color: white;
   margin: 0;
@@ -1256,7 +1290,7 @@ h3 {
 
 <nav>
   <div class="nav-inner">
-    <span class="nav-brand">Garden 2026</span>
+    <span class="nav-brand">Jano's Jungle</span>
     <span id="syncStatus" class="sync-badge sync-offline"><span class="sync-dot"></span> Connecting...</span>
     <a href="#layout">Layout</a>
     <a href="#schedule">Schedule</a>
@@ -1270,8 +1304,8 @@ h3 {
 </nav>
 
 <header class="hero">
-  <h1>Northglenn Garden Dashboard</h1>
-  <p class="subtitle">Your 2026 growing season planner &amp; tracker</p>
+  <h1>Jano's Jungle</h1>
+  <p class="subtitle">2026</p>
   <div class="badges">
     <span class="badge">Zone 5b/6a</span>
     <span class="badge">Last Frost: ~May 10</span>
@@ -1326,11 +1360,11 @@ h3 {
         <!-- west side triangles -->
         <div class="map-triangles">
           <div class="map-tri tri-1" title="Shade 1 (largest)">
-            <svg viewBox="0 0 40 35"><polygon points="0,0 40,0 40,35" fill="rgba(253,216,53,0.5)" stroke="#fdd835" stroke-width="2"/></svg>
+            <svg viewBox="0 0 40 35"><polygon points="40,0 0,0 0,35" fill="rgba(253,216,53,0.5)" stroke="#fdd835" stroke-width="2"/></svg>
             <span>1</span>
           </div>
           <div class="map-tri tri-2" title="Shade 2">
-            <svg viewBox="0 0 35 30"><polygon points="0,0 35,15 0,30" fill="rgba(253,216,53,0.5)" stroke="#fdd835" stroke-width="2"/></svg>
+            <svg viewBox="0 0 35 30"><polygon points="35,0 0,15 35,30" fill="rgba(253,216,53,0.5)" stroke="#fdd835" stroke-width="2"/></svg>
             <span>2</span>
           </div>
           <div class="map-tri tri-3" title="Shade 3">
@@ -1338,7 +1372,7 @@ h3 {
             <span>3</span>
           </div>
           <div class="map-tri tri-4" title="Shade 4 (smallest)">
-            <svg viewBox="0 0 30 25"><polygon points="0,0 30,12 0,25" fill="rgba(253,216,53,0.5)" stroke="#fdd835" stroke-width="2"/></svg>
+            <svg viewBox="0 0 30 25"><polygon points="30,0 0,12 30,25" fill="rgba(253,216,53,0.5)" stroke="#fdd835" stroke-width="2"/></svg>
             <span>4</span>
           </div>
           <div class="map-tri-label">Side Yard<br>Shade Beds</div>
@@ -1370,7 +1404,7 @@ h3 {
 
     <!-- BED A -->
     <div class="bed-card">
-      <div class="bed-header">
+      <div class="bed-header bed-a">
         <h3>Bed A &mdash; Tomato Row &#x1F534;</h3>
         <span class="dims">4' &times; 8' &middot; MIDDLE position</span>
       </div>
@@ -1409,7 +1443,7 @@ h3 {
 
     <!-- BED B -->
     <div class="bed-card">
-      <div class="bed-header">
+      <div class="bed-header bed-b">
         <h3>Bed B &mdash; Vine &amp; Climb &#x1F7E2;</h3>
         <span class="dims">4' &times; 8' &middot; EAST position (near tree)</span>
       </div>
@@ -1446,7 +1480,7 @@ h3 {
 
     <!-- BED C -->
     <div class="bed-card full-width">
-      <div class="bed-header">
+      <div class="bed-header bed-c">
         <h3>Bed C &mdash; Salad &amp; Herb Bar &#x1F7E1;</h3>
         <span class="dims">3' &times; 6' &middot; WEST position</span>
       </div>
