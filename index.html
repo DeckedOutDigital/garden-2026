@@ -805,60 +805,47 @@ h3 {
 }
 .plant-search:focus { border-color: var(--green); }
 
-.plant-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 14px;
+.plant-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
 }
-.plant-card {
-  background: var(--card);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  border: 1px solid var(--border);
-  padding: 14px;
-  transition: all 0.2s;
-}
-.plant-card:hover {
-  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-  transform: translateY(-2px);
-}
-.plant-card.hidden { display: none; }
-.plant-name {
+.plant-table th {
+  text-align: left;
+  padding: 10px 12px;
+  background: var(--green-light);
+  border-bottom: 2px solid var(--green);
   font-weight: 700;
-  font-size: 0.95rem;
-  margin-bottom: 6px;
+  color: var(--green-dark);
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
 }
-.plant-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 8px;
+.plant-table th:hover { background: #d4e8d4; }
+.plant-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: middle;
 }
+.plant-table tr:hover td { background: #fafafa; }
+.plant-table tr.hidden { display: none; }
 .plant-badge {
   padding: 2px 8px;
   border-radius: 10px;
   font-size: 0.7rem;
   font-weight: 600;
+  white-space: nowrap;
 }
 .badge-vegetable { background: #e8f5e9; color: #2e7d32; }
 .badge-green { background: #e0f2e9; color: #1b5e20; }
 .badge-herb { background: var(--purple-light); color: var(--purple); }
-.badge-flower { background: #fff3e0; color: #e65100; }
 .badge-ornamental { background: var(--gold-light); color: #b8860b; }
 .badge-sun { background: #fff8e1; color: #f57f17; }
 .badge-shade { background: var(--blue-light); color: var(--blue); }
-.plant-location {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-}
-.plant-buy {
-  font-size: 0.75rem;
-  margin-top: 6px;
-  padding-top: 6px;
-  border-top: 1px solid #f0f0f0;
-  color: var(--text-muted);
-}
-.plant-buy strong { color: var(--text); }
+.badge-seed { background: #e8f5e9; color: #2e7d32; }
+.badge-seedling { background: #fff3e0; color: #e65100; }
+.badge-saved { background: var(--gold-light); color: #b8860b; }
+.badge-bulbs { background: var(--brown-light); color: var(--brown); }
 
 /* === CHECKLISTS === */
 .checklist-group {
@@ -1141,26 +1128,7 @@ h3 {
 }
 .note-text { font-size: 0.85rem; flex: 1; }
 
-/* === SHOPPING === */
-.shopping-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.85rem;
-}
-.shopping-table th {
-  text-align: left;
-  padding: 10px 12px;
-  background: var(--green-light);
-  border-bottom: 2px solid var(--green);
-  font-weight: 700;
-  color: var(--green-dark);
-}
-.shopping-table td {
-  padding: 8px 12px;
-  border-bottom: 1px solid #f0f0f0;
-}
-.shopping-table tr:hover { background: #fafafa; }
-.shopping-total {
+.plant-total {
   margin-top: 12px;
   font-weight: 700;
   color: var(--green-dark);
@@ -1296,7 +1264,7 @@ h3 {
     <a href="#layout">Layout</a>
     <a href="#schedule">Schedule</a>
     <a href="#plants">Plants</a>
-    <a href="#shopping">Shopping</a>
+    <a href="#plants">Plants</a>
     <a href="#checklists">Checklists</a>
     <a href="#harvest">Harvest</a>
     <a href="#irrigation">Irrigation</a>
@@ -1572,7 +1540,7 @@ h3 {
 
 <!-- ============ PLANT LIST ============ -->
 <section id="plants">
-  <h2><span class="icon">&#x1f33f;</span> Plant List</h2>
+  <h2><span class="icon">&#x1f33f;</span> Plant List &amp; Shopping Guide</h2>
   <div class="plant-filters">
     <input type="text" class="plant-search" id="plantSearch" placeholder="Search plants...">
     <button class="filter-btn active" data-plant-filter="all">All</button>
@@ -1581,16 +1549,10 @@ h3 {
     <button class="filter-btn" data-plant-filter="herb">Herbs</button>
     <button class="filter-btn" data-plant-filter="ornamental">Ornamental</button>
   </div>
-  <div class="plant-grid" id="plantGrid"></div>
-</section>
-
-<!-- ============ SHOPPING LIST ============ -->
-<section id="shopping">
-  <h2><span class="icon">&#x1f6d2;</span> Shopping List: Seeds vs. Seedlings</h2>
   <div class="card" style="overflow-x:auto">
-    <table class="shopping-table" id="shoppingTable"></table>
+    <table class="plant-table" id="plantTable"></table>
   </div>
-  <div class="shopping-total">Estimated total: $75&ndash;$120 (seeds $25&ndash;40 + seedlings $50&ndash;80)</div>
+  <div class="plant-total">Estimated total: $75&ndash;$120 &middot; Seeds: $25&ndash;40 &middot; Seedlings: $50&ndash;80</div>
 </section>
 
 <!-- ============ CHECKLISTS ============ -->
@@ -1814,36 +1776,57 @@ document.querySelectorAll('.timeline-filters .filter-btn').forEach(btn => {
 });
 
 // ==========================================
-// PLANT LIST
+// PLANT LIST & SHOPPING (combined)
 // ==========================================
+const BUY_ORDER = { 'Seed': 1, 'Seedling': 2, 'Saved seed': 3, 'Bulbs': 4 };
+
+function catBadge(cat) {
+  const labels = { vegetable: 'Vegetable', green: 'Green', herb: 'Herb', ornamental: 'Ornamental' };
+  return `<span class="plant-badge badge-${cat}">${labels[cat] || cat}</span>`;
+}
+function sunBadge(sun) {
+  if (sun === 'full') return '<span class="plant-badge badge-sun">☀ Full Sun</span>';
+  if (sun === 'shade') return '<span class="plant-badge badge-shade">☁ Shade</span>';
+  return '<span class="plant-badge badge-shade">⛅ Part Shade</span>';
+}
+function buyBadge(buy) {
+  if (buy === 'Seed') return '<span class="plant-badge badge-seed">🌱 Seed</span>';
+  if (buy === 'Seedling') return '<span class="plant-badge badge-seedling">🪴 Seedling</span>';
+  if (buy === 'Saved seed') return '<span class="plant-badge badge-saved">💛 Saved</span>';
+  return '<span class="plant-badge badge-bulbs">🧅 Bulbs</span>';
+}
+
 function renderPlants() {
-  const grid = document.getElementById('plantGrid');
-  grid.innerHTML = PLANTS.map((p, i) => {
-    const catBadge = p.cat === 'ornamental'
-      ? '<span class="plant-badge badge-ornamental">Ornamental</span>'
-      : `<span class="plant-badge badge-${p.cat}">${p.cat.charAt(0).toUpperCase() + p.cat.slice(1)}</span>`;
-    const sunBadge = p.sun === 'full'
-      ? '<span class="plant-badge badge-sun">\u2600 Full Sun</span>'
-      : p.sun === 'shade'
-      ? '<span class="plant-badge badge-shade">\u2601 Shade</span>'
-      : '<span class="plant-badge badge-shade">\u26C5 Part Shade</span>';
-    return `<div class="plant-card" data-cat="${p.cat}" data-name="${p.name.toLowerCase()}">
-      <div class="plant-name">${p.name}</div>
-      <div class="plant-meta">${catBadge}${sunBadge}</div>
-      <div class="plant-location">\u{1F4CD} ${p.loc} &middot; ${p.season}</div>
-      <div class="plant-buy"><strong>${p.buy}</strong> &middot; ${p.cost}</div>
-    </div>`;
-  }).join('');
+  const sorted = [...PLANTS].sort((a, b) => {
+    const buyDiff = (BUY_ORDER[a.buy] || 9) - (BUY_ORDER[b.buy] || 9);
+    if (buyDiff !== 0) return buyDiff;
+    return a.loc.localeCompare(b.loc);
+  });
+  const table = document.getElementById('plantTable');
+  const rows = sorted.map(p =>
+    `<tr data-cat="${p.cat}" data-name="${p.name.toLowerCase()}">
+      <td><strong>${p.name}</strong></td>
+      <td>${catBadge(p.cat)}</td>
+      <td>${sunBadge(p.sun)}</td>
+      <td>${p.loc}</td>
+      <td>${p.season}</td>
+      <td>${buyBadge(p.buy)}</td>
+      <td>${p.cost}</td>
+    </tr>`
+  ).join('');
+  table.innerHTML = `<thead><tr>
+    <th>Plant</th><th>Type</th><th>Sun</th><th>Location</th><th>Season</th><th>Buy As</th><th>Est. Cost</th>
+  </tr></thead><tbody>${rows}</tbody>`;
 }
 
 function filterPlants() {
   const search = document.getElementById('plantSearch').value.toLowerCase();
   const activeBtn = document.querySelector('[data-plant-filter].active');
   const cat = activeBtn ? activeBtn.dataset.plantFilter : 'all';
-  document.querySelectorAll('.plant-card').forEach(card => {
-    const matchCat = cat === 'all' || card.dataset.cat === cat;
-    const matchSearch = !search || card.dataset.name.includes(search);
-    card.classList.toggle('hidden', !(matchCat && matchSearch));
+  document.querySelectorAll('#plantTable tbody tr').forEach(row => {
+    const matchCat = cat === 'all' || row.dataset.cat === cat;
+    const matchSearch = !search || row.dataset.name.includes(search);
+    row.classList.toggle('hidden', !(matchCat && matchSearch));
   });
 }
 
@@ -1855,15 +1838,6 @@ document.querySelectorAll('[data-plant-filter]').forEach(btn => {
   });
 });
 document.getElementById('plantSearch').addEventListener('input', filterPlants);
-
-// ==========================================
-// SHOPPING TABLE
-// ==========================================
-function renderShopping() {
-  const table = document.getElementById('shoppingTable');
-  const rows = PLANTS.map(p => `<tr><td>${p.name}</td><td><strong>${p.buy}</strong></td><td>${p.cost}</td><td>${p.loc}</td></tr>`).join('');
-  table.innerHTML = `<tr><th>Plant</th><th>Buy As</th><th>Est. Cost</th><th>Location</th></tr>${rows}`;
-}
 
 // ==========================================
 // CHECKLISTS (synced via Firebase)
@@ -2042,7 +2016,6 @@ document.querySelectorAll('nav a').forEach(a => {
 // ==========================================
 renderTimeline();
 renderPlants();
-renderShopping();
 renderChecklists();
 renderGantt();
 renderNotes();
