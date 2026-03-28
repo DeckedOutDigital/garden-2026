@@ -64,10 +64,10 @@ Each section is a right triangle ~5' × 3' ≈ 7.5 sq ft (×4 = 30 sq ft total)
 
 | Container | Plants | Notes |
 |-----------|--------|-------|
-| Container 1 | 1 patio/determinate tomato (Patio Princess or Bushsteak) + parsley ring + marigolds | Needs full sun placement |
-| Container 2 | 1 hot pepper (habanero or serrano) + trailing nasturtiums (edible flowers) | Full sun; nasturtiums attract pollinators |
+| Container 1 | 1 patio/determinate tomato (Patio Princess or Bushsteak) + parsley ring + marigolds | Between Bed C & Bed A along back fence |
+| Container 2 | 1 hot pepper (habanero or serrano) + trailing nasturtiums (edible flowers) | Next to Container 1; nasturtiums attract pollinators |
 
-> **Container tips:** At 2.5' diameter, these fit one main plant each with a small companion. Use quality potting mix (NOT garden soil). Containers dry faster than beds — check moisture even with drip lines. Add a tomato cage to Container 1.
+> **Container tips:** At 2.5' diameter, these fit one main plant each with a small companion. Placed between Bed C and Bed A along the back fence — same drip zone, 8-10 hrs sun in summer. Use quality potting mix (NOT garden soil). Containers dry faster than beds — check moisture even with drip lines. Add a tomato cage to Container 1.
 
 ---
 
